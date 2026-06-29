@@ -22,6 +22,7 @@ export type Product = {
   fabric: string;
   image: string;
   images: string[];
+  category?: string;
 };
 
 export const PRODUCTS: Product[] = [
