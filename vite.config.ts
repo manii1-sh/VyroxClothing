@@ -9,11 +9,23 @@ export default defineConfig({
   },
   plugins: [
     tanstackStart({
-      server: {
-        entry: "server",
-      },
+      server: { entry: "server" },
     }),
     react(),
     tailwindcss(),
   ],
+  build: {
+    // Raise the chunk warning limit — our images are large but hashed
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        // Split vendor libs into a separate chunk so they can be cached independently
+        manualChunks: {
+          "react-vendor": ["react", "react-dom"],
+          "router-vendor": ["@tanstack/react-router", "@tanstack/react-query"],
+          "ui-vendor": ["lucide-react", "sonner"],
+        },
+      },
+    },
+  },
 });

@@ -80,7 +80,7 @@ function Index() {
             </div>
 
             {/* Models Image (z-20 so they stand behind the text on mobile, creating a premium layered look) */}
-            <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center" style={{ transform: `translateY(${progress * 12}px) scale(${0.94 + progress * 0.06})` }}><img src={heroModels} alt="Female and male VYROX models in crimson tailoring" width={1024} height={1536} className="h-auto w-[96vw] max-w-none object-contain drop-shadow-hero sm:h-[92vh] sm:w-auto" /></div>
+            <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center" style={{ transform: `translateY(${progress * 12}px) scale(${0.94 + progress * 0.06})` }}><img src={heroModels} alt="Female and male VYROX models in crimson tailoring" width={1024} height={1536} fetchPriority="high" className="h-auto w-[96vw] max-w-none object-contain drop-shadow-hero sm:h-[92vh] sm:w-auto" /></div>
 
             <div className="absolute bottom-[15%] right-[5vw] z-40 hidden w-48 border border-border bg-panel/95 p-4 backdrop-blur-md md:block" style={{ opacity: details, transform: `translateY(${(1 - details) * 50}px)` }}>
               <p className="font-display text-[10px] font-black uppercase tracking-[0.2em] text-primary">New Drop</p>
@@ -211,7 +211,7 @@ function BestSellersCarousel() {
         className="flex gap-3 overflow-x-auto scroll-smooth pb-2 px-4 md:px-0"
         style={{ scrollbarWidth: "none" }}
       >
-        {PRODUCTS.map((p) => (
+        {PRODUCTS.map((p, idx) => (
           <Link
             key={p.slug}
             to="/product/$slug"
@@ -222,7 +222,8 @@ function BestSellersCarousel() {
               <img
                 src={p.image}
                 alt={p.name}
-                loading="lazy"
+                loading={idx < 4 ? "eager" : "lazy"}
+                decoding="async"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>

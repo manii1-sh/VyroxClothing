@@ -9,23 +9,26 @@
 [functions]
   node_bundler = "esbuild"
 
-# Long-lived cache for hashed static assets
+# Cache hashed JS/CSS/image assets for 1 year — safe because filenames change on rebuild
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
 
+# Cache fonts
 [[headers]]
-  for = "/*.js"
+  for = "/*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Short cache for HTML — always revalidate
 [[headers]]
-  for = "/*.css"
+  for = "/"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
-# Serve static assets directly — do NOT route through SSR function
+# Serve static assets directly — bypasses the SSR function completely
 [[redirects]]
   from = "/assets/*"
   to = "/assets/:splat"
@@ -36,7 +39,7 @@
   to = "/favicon.svg"
   status = 200
 
-# All other routes go through SSR
+# All other routes go through SSR function
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/ssr"
