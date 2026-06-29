@@ -9,3 +9,21 @@
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["node:*"]
+
+# Serve static assets directly — do NOT route through SSR function
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/favicon.svg"
+  to = "/favicon.svg"
+  status = 200
+
+# All other routes go through SSR
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/ssr"
+  status = 200
+  force = true
