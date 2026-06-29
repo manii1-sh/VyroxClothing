@@ -92,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#050505" },
     ],
     links: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=Orbitron:wght@700&display=swap" },
@@ -125,10 +126,10 @@ function MobileBottomNav() {
   const { count } = useCart();
 
   const tabs = [
-    { label: "Home", icon: Home, to: "/" },
-    { label: "Shop", icon: Store, to: "/shop" },
-    { label: "Drops", icon: LayoutGrid, to: "/collections" },
-    { label: "Contact", icon: Headphones, to: "/contact" },
+    { label: "Home", icon: Home, to: "/", hasBadge: false },
+    { label: "Shop", icon: Store, to: "/shop", hasBadge: false },
+    { label: "Drops", icon: LayoutGrid, to: "/collections", hasBadge: false },
+    { label: "Contact", icon: Headphones, to: "/contact", hasBadge: false },
     { label: "Cart", icon: ShoppingBag, to: "/checkout", hasBadge: true },
   ] as const;
 
