@@ -20,10 +20,28 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Split vendor libs into a separate chunk so they can be cached independently
-        manualChunks: {
-          "react-vendor": ["react", "react-dom"],
-          "router-vendor": ["@tanstack/react-router", "@tanstack/react-query"],
-          "ui-vendor": ["lucide-react", "sonner"],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            const normalizedId = id.replace(/\\/g, "/");
+            if (
+              normalizedId.includes("node_modules/react/") ||
+              normalizedId.includes("node_modules/react-dom/")
+            ) {
+              return "react-vendor";
+            }
+            if (
+              normalizedId.includes("node_modules/@tanstack/react-router/") ||
+              normalizedId.includes("node_modules/@tanstack/react-query/")
+            ) {
+              return "router-vendor";
+            }
+            if (
+              normalizedId.includes("node_modules/lucide-react/") ||
+              normalizedId.includes("node_modules/sonner/")
+            ) {
+              return "ui-vendor";
+            }
+          }
         },
       },
     },
